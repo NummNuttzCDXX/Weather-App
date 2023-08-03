@@ -1,0 +1,20 @@
+{
+  "name": "weather-app",
+  "version": "1.0.0",
+  "description": "An Odin Assignment demonstrating the use and implementation of API's and Promises",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch": "npx webpack --watch --mode development",
+    "live": "git subtree push --prefix dist origin gh-pages"
+  },
+  "keywords": [],
+  "author": "NummNuttzCDXX",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^8.46.0",
+    "eslint-config-google": "^0.14.0",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  }
+}
