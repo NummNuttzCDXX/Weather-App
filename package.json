@@ -12,6 +12,7 @@
   "author": "NummNuttzCDXX",
   "license": "ISC",
   "devDependencies": {
+    "date-fns": "^2.30.0",
     "eslint": "^8.46.0",
     "eslint-config-google": "^0.14.0",
     "webpack": "^5.88.2",
