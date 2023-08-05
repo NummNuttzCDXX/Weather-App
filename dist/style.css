@@ -33,6 +33,7 @@ header h1 {
 	color: var(--dark-1);
 }
 
+/* Main Content Section */
 #content {
 	flex-grow: 1;
 	width: 80%;
@@ -55,9 +56,18 @@ header h1 {
 	border-radius: 1vw;
 }
 
+/* Current Weather Header */
 .current-header {
 	display: flex;
 	justify-content: space-between;
+
+	font-size: 1.1em;
+	border-bottom: 2px solid var(--dark-1);
+	margin-bottom: 10px;
+}
+
+#current-temp {
+	font-size: 1.3em;
 }
 
 .current-header span {
