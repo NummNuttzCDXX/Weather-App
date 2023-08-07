@@ -1,9 +1,17 @@
-// Dom Manipulation Module
+/**
+ * Dom Manipulation Module
+ * @module
+ */
 
 import {format, parseISO, isToday} from 'date-fns';
 import conditionsList from './weather_conditions.json';
 
 export const dom = (() => {
+	/**
+	 * Updates `Current Weather` container with the given Data
+	 * @param {object} data - Data object given by Weather API after processing
+	 * see {@link weather.process.forecastData}
+	 */
 	const updateCurrentLocation = (data) => {
 		// Heading
 		const header = document.querySelector('.current-header.weather-current');
@@ -24,7 +32,12 @@ export const dom = (() => {
 		condition.textContent = data.current.condition.text;
 	};
 
-	const updateWeekForecast = (data, unit = 'f') => {// unit = Celsius/Farenheit
+	/**
+	 * Updates `Weekly Forecast` container with the given data
+	 * @param {object} data - Processed Data
+	 * @param {string} unit - 'f'/'c', for Farenheit/Celsius
+	 */
+	const updateWeekForecast = (data, unit = 'f') => {
 		const dayContainers = document.querySelectorAll('.day-container');
 
 		for (let i = 0; i < dayContainers.length; i++) {
@@ -36,9 +49,9 @@ export const dom = (() => {
 			day.textContent = formatForecastDate(currentDay.date);
 
 			// Condition img
-			const condition = new Image();
-			condition.src = getConditionImg(currentDay.day.condition, 1);
-			container.querySelector('.condition-container').appendChild(condition);
+			const img = container.querySelector('.condition-container img');
+			img.src = getConditionImg(currentDay.day.condition);
+			img.alt = currentDay.day.condition.text;
 
 			// Temperature
 			const high = container.querySelector('.temp .high');
@@ -63,7 +76,12 @@ export const dom = (() => {
 		return `${dayOfWeek} ${dayOfMonth}`;
 	};
 
-	// Param: condition Obj, Day?
+	/**
+	 * Get file path to weather condition image
+	 * @param {object} condition - Condition Object given by Weather API
+	 * @param {number} day - `isDay` Property from Weather API will be 1 for true
+	 * @return {string} - File path to current weather's corresponding image
+	 */
 	const getConditionImg = (condition, day = 1) => {
 		let time;
 		(day === 1) ? time = 'day' : time = 'night';
@@ -75,7 +93,6 @@ export const dom = (() => {
 		Return file path to corrosponding image */
 		conditionsList.forEach((obj) => {
 			if (obj.code == condition.code) {
-				console.log('why are you broken');
 				path = `../dist/assets/img/weather/${time}/${obj.icon}.png`;
 			}
 		});
