@@ -11,6 +11,17 @@
 	--dark-1: #03045e;
 }
 
+/* Borders */
+.right-border {
+	border-right: 2px solid;
+	border-image: linear-gradient(to bottom, transparent, transparent, var(--dark-2), transparent, transparent) 1;
+}
+
+.no-border {
+	border: none;
+}
+
+/* Doc */
 body {
 	display: flex;
 	flex-direction: column;
@@ -37,7 +48,7 @@ header h1 {
 #content {
 	flex-grow: 1;
 	width: 80%;
-	
+
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -77,7 +88,7 @@ header h1 {
 /* 7 Day Forecast */
 /* Container holding individual 'day' cards */
 #forecast {
-	border: 2px solid red; /* For visualization */
+	border: 2px solid var(--blue-reg);
 	width: 80%;
 	height: 15vw;
 
@@ -86,7 +97,6 @@ header h1 {
 }
 
 .day-container {
-	border: 2px dotted green;
 	text-align: center;
 
 	flex: 1;
@@ -97,6 +107,10 @@ header h1 {
 
 .condition-container {
 	flex-grow: 2;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .day {
