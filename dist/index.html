@@ -10,17 +10,15 @@
 <body>
 	<header>
 		<h1>My Weather App</h1>
+
+		<input type="text" name="search" id="search" class="round" placeholder="Search for a location">
+		<button type="button" id="unit">F&deg;</button>
 	</header>
 
 	<!-- Main Content Section -->
-	<div id="content">
-		<div class="search">
-			<input type="text" name="search" id="search" placeholder="Search for a location">
-			<button type="button" class="search">Search</button>
-		</div>
-
+	<div id="content" class="round">
 		<!-- Current Weather Conditions -- TEMPLATE -->
-		<div id="current-container">
+		<div id="current-container" class="round">
 			<div class="current-header weather-current"></div>
 			<div id="current-temp" class="weather-current"></div>
 			<div id="condition" class="weather-current"></div>
@@ -29,7 +27,7 @@
 		</div>
 
 		<!-- 7 Day Forecast -->
-		<div id="forecast">
+		<div id="forecast" class="round">
 			<div class="day-container right-border">
 				<div class="day"></div>
 				<div class="condition-container"><img></div> <!-- Will hold 'Condition' img -->
