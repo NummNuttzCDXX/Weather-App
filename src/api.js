@@ -103,6 +103,7 @@ export const weather = (() => {
 						speed_kph: data.current.wind_kph,
 					},
 					condition: data.current.condition,
+					isDay: data.current.is_day,
 				},
 				forecast: {
 					days: days,
