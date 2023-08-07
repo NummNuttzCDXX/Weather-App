@@ -65,10 +65,18 @@ header h1 {
 
 	border: 2px solid var(--blue-reg);
 	border-radius: 1vw;
+
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
 }
 
 /* Current Weather Header */
 .current-header {
+	/* Span the whole top */
+	grid-column: 1 / -1;
+	grid-row: 1 / 2;
+
 	display: flex;
 	justify-content: space-between;
 
@@ -78,7 +86,25 @@ header h1 {
 }
 
 #current-temp {
+	grid-row: 2 / 3;
+	grid-column: 1 / 2;
+
 	font-size: 1.3em;
+}
+
+#condition.weather-current {
+	grid-row: 3 / 4;
+	grid-column: 1 / 2;
+}
+
+#condition-img-container.weather-current {
+	/* Last column - Span all rows except header/top row */
+	grid-column: 2 / 3;
+	grid-row: 2 / -1;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .current-header span {
