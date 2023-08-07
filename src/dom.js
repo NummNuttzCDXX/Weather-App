@@ -30,6 +30,9 @@ export const dom = (() => {
 		// Condition
 		const condition = document.querySelector('#condition.weather-current');
 		condition.textContent = data.current.condition.text;
+
+		const img = document.querySelector('#condition-img-container img');
+		img.src = getConditionImg(data.current.condition, data.current.isDay);
 	};
 
 	/**
