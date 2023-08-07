@@ -3,6 +3,7 @@
  * @module
  */
 
+import {weather} from './api.js';
 import {format, parseISO, isToday} from 'date-fns';
 import conditionsList from './weather_conditions.json';
 
@@ -102,5 +103,16 @@ export const dom = (() => {
 		return path;
 	};
 
-	return {updateCurrentLocation, updateWeekForecast};
+	/**
+	 * Will be run on Search Btn Click.
+	 * Updates current location, weekly forecast, and hourly info
+	 * @param {string} location - Location to show weather info
+	 */
+	const search = async (location) => {
+		const data = await weather.getForecastData(location); // Get data
+		updateCurrentLocation(data); // Display Data
+		updateWeekForecast(data, 'f'); // Display weeks Data
+	};
+
+	return {search};
 })();
