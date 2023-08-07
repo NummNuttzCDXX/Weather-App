@@ -21,6 +21,10 @@
 	border: none;
 }
 
+.round {
+	border-radius: 1rem;
+}
+
 /* Doc */
 body {
 	display: flex;
@@ -37,6 +41,40 @@ body {
 header {
 	width: 100%;
 	background-color: var(--dark-2);
+
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	align-items: center;
+}
+
+header #search {
+	height: 1rem;
+
+	font-size: .8rem;
+	text-align: center;
+
+	border: 3px solid var(--blue-reg);
+	background-color: var(--light-1);
+}
+
+header #unit {
+	margin: 0 1rem;
+	width: 1.5rem;
+	height: 1.2rem;
+	font-size: .8rem;
+
+	border-color: var(--blue-reg);
+	border-style: solid;
+	border-radius: 15%;
+
+	background-color: var(--dark-1);
+	color: var(--blue-reg);
+}
+
+button#unit:hover {
+	background-color: var(--light-1);
+	border-color: var(--dark-1);
+	color: var(--dark-1);
 }
 
 header h1 {
@@ -52,19 +90,18 @@ header h1 {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 20px;
+	gap: 1.5rem;
 
 	background-color: var(--light-2);
-	border-radius: 2vw;
 }
 
 /* Current Weather Container */
 #current-container {
+	margin-top: 1.5rem;
 	width: 50%;
 	padding: 10px;
 
 	border: 2px solid var(--blue-reg);
-	border-radius: 1vw;
 
 	display: grid;
 	grid-template-columns: 1fr 1fr;
