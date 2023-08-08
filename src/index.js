@@ -12,5 +12,9 @@ searchBar.addEventListener('keydown', (e) => {
 	}
 });
 
+// Update units on button click
+const unitBtn = document.querySelector('button#unit');
+unitBtn.addEventListener('click', dom.updateUnits);
+
 // Page Loads with default data
 dom.search('anaheim california');
