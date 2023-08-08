@@ -4,16 +4,19 @@
 Concat Location to end (Plus any optional parameters in docs) */
 
 export const weather = (() => {
-	// Get Current Weather at Location data
-	const getForecastData = async (location = '') => {
+	/**
+	 * Get current weather data at `location`
+	 * @param {string} location - Location given as a string
+	 * @return {object} Processed weather data
+	 * See {@link process.forecastData}
+	 */
+	const getForecastData = async (location) => {
 		const api = 'https://api.weatherapi.com/v1/forecast.json?key=fc056cba0c074a5888d30500230308&days=7&q=';
 		// Fetch Data
 		const request = await fetch(api + location, {mode: 'cors'});
 
 		// Parse Data
 		const data = await request.json();
-
-		console.log(data);
 
 		/* `data` will be JS Obj
 		Holds all Current Weather Data for the given location */
@@ -23,7 +26,13 @@ export const weather = (() => {
 	/* Nested Module for processing different Data Objects
 	For organization */
 	const process = (() => {
-		const forecastData = (data = {}) => {
+		/**
+		 * Process weather data
+		 * @param {object} data - Unprocessed weather data provided by weather API
+		 * See {@link getForecastData}
+		 * @return {object} Processed weather data containing only the needed data
+		 */
+		const forecastData = (data) => {
 			const days = [];
 
 			/* This is an array holding the forecast data for each day,
@@ -91,10 +100,14 @@ export const weather = (() => {
 					localTime: data.location.localtime, // Needs to be formatted - datefns
 				},
 				current: {
-					temp_f: data.current.temp_f,
-					temp_c: data.current.temp_c,
-					feelsLike_f: data.current.feelslike_f,
-					feelsLike_c: data.current.feelslike_c,
+					f: {
+						temp: data.current.temp_f,
+						feelsLike: data.current.feelslike_f,
+					},
+					c: {
+						temp: data.current.temp_c,
+						feelsLike: data.current.feelslike_c,
+					},
 					humidity: data.current.humidity,
 					last_updated: data.current.last_updated,
 					wind: {
