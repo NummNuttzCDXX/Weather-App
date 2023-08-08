@@ -11,9 +11,10 @@ export const dom = (() => {
 	/**
 	 * Updates `Current Weather` container with the given Data
 	 * @param {object} data - Data object given by Weather API after processing
+	 * @param {string} unit - F/C (Farenheit/Celsius)
 	 * see {@link weather.process.forecastData}
 	 */
-	const updateCurrentLocation = (data) => {
+	const updateCurrentLocation = (data, unit = 'F') => {
 		// Heading
 		const header = document.querySelector('.current-header.weather-current');
 		header.textContent = `${data.location.name}, ${data.location.region}`;
@@ -26,7 +27,8 @@ export const dom = (() => {
 
 		// Current Temp
 		const currentTemp = document.querySelector('#current-temp');
-		currentTemp.textContent = data.current.temp_f + '\u00B0' + 'F';
+		currentTemp.textContent = data.current[unit.toLowerCase()].temp +
+			'\u00B0' + unit;
 
 		// Condition
 		const condition = document.querySelector('#condition.weather-current');
@@ -34,6 +36,11 @@ export const dom = (() => {
 
 		const img = document.querySelector('#condition-img-container img');
 		img.src = getConditionImg(data.current.condition, data.current.isDay);
+
+		// Feels Like
+		const feelsLike = document.querySelector('#feels-like.weather-current');
+		feelsLike.textContent = 'Feels like: ' +
+			data.current[unit.toLowerCase()].feelsLike + '\u00B0' + unit;
 	};
 
 	/**
@@ -59,11 +66,12 @@ export const dom = (() => {
 
 			// Temperature
 			const high = container.querySelector('.temp .high');
-			high.textContent = currentDay.day[unit].high + '\u00B0' +
+			high.textContent = currentDay.day[unit.toLowerCase()].high + '\u00B0' +
 				unit.toUpperCase();
 
 			const low = container.querySelector('.temp .low');
-			low.textContent = currentDay.day[unit].low + '\u00B0'+ unit.toUpperCase();
+			low.textContent = currentDay.day[unit.toLowerCase()].low + '\u00B0'+
+				unit.toUpperCase();
 
 			// Chance of Rain
 			const precip = container.querySelector('.precip-chance');
@@ -104,15 +112,57 @@ export const dom = (() => {
 	};
 
 	/**
+	 * Toggles the text of the `#unit` btn to be F or C
+	 * @return {string} - Returns unit F/C (Farenheit/Celsius)
+	 */
+	const toggleUnitBtn = () => {
+		const unitBtn = document.querySelector('button#unit');
+		let unit;
+
+		if (unitBtn.textContent.includes('F')) {
+			unitBtn.textContent = unitBtn.textContent.replace('F', 'C');
+			unit = 'C';
+		} else {
+			unitBtn.textContent = unitBtn.textContent.replace('C', 'F');
+			unit = 'F';
+		}
+
+		return unit;
+	};
+
+	const updateUnits = () => {
+		const unit = toggleUnitBtn();
+
+		/* Get updated forecast data,
+		Toggle the units,
+		Using Promise syntax this time ;) */
+		const location = document.querySelector('.current-header').innerHTML
+			.split('\n')[0];
+		weather.getForecastData(location)
+			.then(function fulfill(data) {
+				updateCurrentLocation(data, unit);
+				updateWeekForecast(data, unit);
+			})
+			.catch(function err(error) {
+				alert('There was an error');
+				console.error(error);
+			});
+	};
+
+	/**
 	 * Will be run on Search Btn Click.
 	 * Updates current location, weekly forecast, and hourly info
 	 * @param {string} location - Location to show weather info
 	 */
 	const search = async (location) => {
 		const data = await weather.getForecastData(location); // Get data
-		updateCurrentLocation(data); // Display Data
-		updateWeekForecast(data, 'f'); // Display weeks Data
+		const unitBtn = document.querySelector('button#unit');
+		let unit;
+		(unitBtn.textContent.includes('F')) ? unit = 'F' : unit = 'C'; // Get unit
+
+		updateCurrentLocation(data, unit); // Display Data
+		updateWeekForecast(data, unit); // Display weeks Data
 	};
 
-	return {search};
+	return {search, updateUnits};
 })();
