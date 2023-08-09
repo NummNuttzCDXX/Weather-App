@@ -79,13 +79,80 @@ export const dom = (() => {
 		}
 	};
 
-	/* This will format the date for the weekly forecast section */
-	const formatForecastDate = (date) => {
-		if (isToday(parseISO(date))) return 'Today';
+	/**
+	 * Display hourly forecast data to DOM
+	 * @param {object} data - Processed weather data -- Pass in individual day,
+	 * EX: data.forecast.days[x] -- X = number for day in array. 0 = today
+	 * @param {string} unit - `F`arenheit/`C`elsius
+	 */
+	const updateHourlyForecast = (data, unit = 'f') => {
+		const container = document.querySelector('#hourly');
 
-		const dayOfWeek = format(parseISO(date), 'iii'); // Mon, Tue, Wed, .etc
-		const dayOfMonth = format(parseISO(date), 'dd'); // 01, 02, 03, .etc
-		return `${dayOfWeek} ${dayOfMonth}`;
+		// Heading
+		const head = container.querySelector('h3');
+		head.textContent = `${formatForecastDate(data.date)}'s Hourly Forecast`;
+
+		// Hours
+		const hours = Array.from(container.querySelectorAll('.hour'));
+		// Use `for` loop to iterate through `hours` array & hours in `data`
+		for (let i = 0; i < hours.length; i++) {
+			const hourContainer = hours[i];
+			const hourData = data.hourly[i];
+
+			// Time
+			const time = hourContainer.querySelector('.time');
+			time.textContent = formatForecastDate(hourData.time, true);
+
+			// Temp
+			const temp = hourContainer.querySelector('.temp');
+			temp.textContent = hourData.temp[unit.toLowerCase()].temp +
+				'\u00B0' + unit.toUpperCase();
+
+			// Condition
+			const conditionContainer = hourContainer.querySelector('.condition');
+			const img = conditionContainer.querySelector('img');
+			img.src = getConditionImg(hourData.condition, hourData.isDay);
+			img.alt = 'Weather Image';
+
+			const txt = conditionContainer.querySelector('span');
+			txt.textContent = hourData.condition.text;
+
+			// Chance Rain
+			const precip = hourContainer.querySelector('.precip');
+			precip.textContent = hourData.chanceRain + '%';
+
+			// Wind
+			const windContainer = hourContainer.querySelector('.wind');
+			const direction = windContainer.querySelector('.direction');
+			const speed = windContainer.querySelector('.speed');
+			if (unit.toLowerCase() === 'f') {
+				direction.textContent = hourData.wind.direction;
+				speed.textContent = hourData.wind.speed.mph + 'mph';
+			} else if (unit.toLowerCase() === 'c') {
+				direction.textContent = hourData.wind.direction;
+				speed.textContent = hourData.wind.speed.kph + 'kph';
+			} else {
+				throw new Error('Sonmething went wrong with "wind" section');
+			}
+		}
+	};
+
+	/**
+	 * Format the given date for `#forecast` & `#hourly` sections
+	 * @param {string} date - Date as a string
+	 * @param {boolean} time - Do you want to return the date or the time?
+	 * @return {string} Formatted date/time
+	 */
+	const formatForecastDate = (date, time = false) => {
+		if (time) {
+			return format(parseISO(date), 'p');
+		} else {
+			if (isToday(parseISO(date))) return 'Today';
+
+			const dayOfWeek = format(parseISO(date), 'iii'); // Mon, Tue, Wed, .etc
+			const dayOfMonth = format(parseISO(date), 'dd'); // 01, 02, 03, .etc
+			return `${dayOfWeek} ${dayOfMonth}`;
+		}
 	};
 
 	/**
@@ -142,6 +209,7 @@ export const dom = (() => {
 			.then(function fulfill(data) {
 				updateCurrentLocation(data, unit);
 				updateWeekForecast(data, unit);
+				updateHourlyForecast(data.forecast.days[0], unit);
 			})
 			.catch(function err(error) {
 				alert('There was an error');
@@ -162,6 +230,7 @@ export const dom = (() => {
 
 		updateCurrentLocation(data, unit); // Display Data
 		updateWeekForecast(data, unit); // Display weeks Data
+		updateHourlyForecast(data.forecast.days[0], unit); // Todays Hourly Forecast
 	};
 
 	return {search, updateUnits};
