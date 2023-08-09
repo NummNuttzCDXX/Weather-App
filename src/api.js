@@ -55,8 +55,16 @@ export const weather = (() => {
 							},
 						},
 						chanceRain: time.chance_of_rain,
+						wind: {
+							direction: time.wind_dir,
+							speed: {
+								mph: time.wind_mph,
+								kph: time.wind_kph,
+							},
+						},
 						time: time.time,
 						condition: time.condition,
+						isDay: time.is_day,
 					};
 
 					hours.push(hour); // Add processed data to `hours` array
@@ -112,8 +120,10 @@ export const weather = (() => {
 					last_updated: data.current.last_updated,
 					wind: {
 						direction: data.current.wind_dir,
-						speed_mph: data.current.wind_mph,
-						speed_kph: data.current.wind_kph,
+						speed: {
+							mph: data.current.wind_mph,
+							kph: data.current.wind_kph,
+						},
 					},
 					condition: data.current.condition,
 					isDay: data.current.is_day,
