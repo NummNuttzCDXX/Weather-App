@@ -4,7 +4,7 @@
  */
 
 import {weather} from './api.js';
-import {format, parseISO, isToday} from 'date-fns';
+import {format, parseISO, isToday, isPast} from 'date-fns';
 import conditionsList from './weather_conditions.json';
 
 export const dom = (() => {
@@ -99,6 +99,12 @@ export const dom = (() => {
 			const hourContainer = hours[i];
 			const hourData = data.hourly[i];
 
+			// If time is in the past, dont show
+			if (checkTimeIsPast(hourData.time)) {
+				hourContainer.style.display = 'none';
+				continue;
+			}
+
 			// Time
 			const time = hourContainer.querySelector('.time');
 			time.textContent = formatForecastDate(hourData.time, true);
@@ -134,6 +140,30 @@ export const dom = (() => {
 			} else {
 				throw new Error('Sonmething went wrong with "wind" section');
 			}
+		}
+	};
+
+	/**
+	 * Check if time is in past, rounded down to closest hour
+	 * @param {string} checkDate - ISO date to check against current date and time
+	 * given by Weather API Hourly data
+	 * @return {boolean} True if date is in past
+	 * (except for closest hour rounded down)
+	 */
+	const checkTimeIsPast = (checkDate) => {
+		// Get time from date string
+		const time = checkDate.split(' ')[1];
+		const hour = time.slice(0, 2);
+		const currentHour = Date().split(' ')[4].slice(0, 2);
+
+		if (isPast(parseISO(checkDate))) {
+			if (hour == currentHour || hour == currentHour - 1) {
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return false;
 		}
 	};
 
@@ -203,7 +233,7 @@ export const dom = (() => {
 		/* Get updated forecast data,
 		Toggle the units,
 		Using Promise syntax this time ;) */
-		const location = document.querySelector('.current-header').innerHTML
+		const location = document.querySelector('.current-header').innerText
 			.split('\n')[0];
 		weather.getForecastData(location)
 			.then(function fulfill(data) {
