@@ -33,6 +33,7 @@ body {
 	align-items: center;
 
 	margin: 0;
+	min-width: 100vw;
 	min-height: 100vh;
 
 	background-color: var(--light-1);
@@ -176,6 +177,15 @@ header h1 {
 	align-items: center;
 }
 
+/* All condition imgs */
+.condition-container img,
+.condition img,
+#condition-img-container img {
+	height: 3rem;
+	max-height: 130px;
+	max-width: 130px;
+}
+
 .day {
 	font-size: 1.1em;
 
@@ -214,16 +224,18 @@ header h1 {
 }
 
 #hourly .condition {
+	width: 100%;
+
 	display: flex;
+	justify-content: space-between;
 	align-items: center;
 	gap: 1rem;
+
+	text-align: end;
 }
 
-/* FOOTER AND IMG SIZES TEMP!
-JUST WANTED TO GET THE FOOTER AND ATTRIBUTION LOOKING RIGHT */
 footer {
 	width: 100%;
-	height: 50px;
 
 	background-color: var(--dark-2);
 
@@ -234,7 +246,11 @@ footer {
 /* Weather API Link/Img */
 footer > a {
 	margin-left: 2vw;
-	height: 50px;
+	height: fit-content;
+}
+
+footer > a img {
+	height: 3rem;
 }
 
 /* My Signature */
@@ -251,6 +267,7 @@ footer > a {
 }
 
 #sig img {
-	height: 3vw;
+	height: 2.5rem;
+	min-height: 40px;
 	margin-top: 3px;
 }
