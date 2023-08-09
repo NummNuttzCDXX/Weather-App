@@ -190,6 +190,35 @@ header h1 {
 	font-size: .8em;
 }
 
+/* Hourly Forecast */
+/* Main Container */
+#hourly {
+	margin-bottom: 1.5rem;
+	width: 80%;
+
+	display: flex;
+	flex-direction: column;
+
+	border: 2px solid var(--blue-reg);
+}
+
+.hour {
+	width: 100%;
+
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	justify-items: center;
+	align-items: center;
+
+	border-top: 2px solid var(--dark-1);
+}
+
+#hourly .condition {
+	display: flex;
+	align-items: center;
+	gap: 1rem;
+}
+
 /* FOOTER AND IMG SIZES TEMP!
 JUST WANTED TO GET THE FOOTER AND ATTRIBUTION LOOKING RIGHT */
 footer {
