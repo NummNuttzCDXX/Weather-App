@@ -39,8 +39,6 @@ body {
 	align-items: center;
 
 	margin: 0;
-	min-width: 100vw;
-	min-height: 100vh;
 
 	background-color: var(--light-1);
 }
@@ -114,7 +112,7 @@ header h1 {
 
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	grid-template-rows: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr;
 }
 
 /* Current Weather Header */
@@ -153,6 +151,10 @@ header h1 {
 	align-items: center;
 }
 
+#condition-img-container img {
+	height: 100%;
+}
+
 .current-header span {
 	font-size: .7em;
 }
@@ -160,6 +162,7 @@ header h1 {
 /* 7 Day Forecast */
 /* Container holding individual 'day' cards */
 #forecast {
+	padding: .5rem;
 	border: 2px solid var(--blue-reg);
 	width: 80%;
 	height: 15vw;
@@ -168,6 +171,7 @@ header h1 {
 	justify-content: space-between;
 }
 
+/* `day` cards */
 .day-container {
 	text-align: center;
 
@@ -179,16 +183,14 @@ header h1 {
 
 .condition-container {
 	flex-grow: 2;
-
 	display: flex;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-end;
 }
 
 /* All condition imgs */
 .condition-container img,
-.condition img,
-#condition-img-container img {
+.condition img {
 	height: 3rem;
 	max-height: 130px;
 	max-width: 130px;
@@ -212,6 +214,7 @@ header h1 {
 /* Main Container */
 #hourly {
 	margin-bottom: 1.5rem;
+	padding: 0 10px 10px;
 	width: 80%;
 
 	display: flex;
@@ -253,12 +256,13 @@ footer {
 
 /* Weather API Link/Img */
 footer > a {
-	margin-left: 2vw;
+	margin: 5px .8rem 0;
+	width: fit-content;
 	height: fit-content;
 }
 
 footer > a img {
-	height: 3rem;
+	height: 1.5rem;
 }
 
 /* My Signature */
@@ -267,15 +271,75 @@ footer > a img {
 	justify-content: center;
 	align-items: center;
 	gap: 10px;
+	font-size: .8rem;
 }
 
 /* GH Img */
 #sig a {
+	margin: 5px 0;
 	height: fit-content;
 }
 
 #sig img {
-	height: 2.5rem;
-	min-height: 40px;
-	margin-top: 3px;
+	height: 1.5rem;
+	min-height: 25px;
+
+	transform: rotate(-1turn) scale(1);
+	transition: .5s;
+}
+
+#sig img:hover {
+	transform: rotate(1turn) scale(1.15);
+	transition: .5s;
+}
+
+
+/* For smaller screens */
+@media screen and (max-width: 770px) {
+	/* Header */
+	header {
+		grid-template-columns: repeat(4, 1fr);
+		grid-template-rows: 1fr 1fr;
+	}
+
+	header h1 {
+		margin-bottom: 0;
+
+		grid-column: 1 / -1;
+	}
+
+	#search {
+		margin-left: 10px;
+
+		grid-column: 1 / 4;
+		grid-row: 2 / 3;
+	}
+
+	#unit {
+		justify-self: end;
+	}
+
+	/* Content Section */
+	#content {
+		width: 100%;
+	}
+
+	/* All Content elements */
+	#current-container, #forecast, #hourly {
+		width: 90%;
+		padding: 5px;
+	}
+
+	#forecast {
+		height: fit-content;
+		min-width: fit-content;
+	}
+
+	.day-container {
+		min-width: 55px;
+	}
+
+	.day {
+		font-size: 1rem;
+	}
 }
