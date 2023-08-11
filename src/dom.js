@@ -66,12 +66,12 @@ export const dom = (() => {
 
 			// Temperature
 			const high = container.querySelector('.temp .high');
-			high.textContent = currentDay.day[unit.toLowerCase()].high + '\u00B0' +
-				unit.toUpperCase();
+			const roundedHigh = Math.round(currentDay.day[unit.toLowerCase()].high);
+			high.textContent = roundedHigh + '\u00B0' + unit.toUpperCase();
 
 			const low = container.querySelector('.temp .low');
-			low.textContent = currentDay.day[unit.toLowerCase()].low + '\u00B0'+
-				unit.toUpperCase();
+			const roundedLow = Math.round(currentDay.day[unit.toLowerCase()].low);
+			low.textContent = roundedLow + '\u00B0'+ unit.toUpperCase();
 
 			// Chance of Rain
 			const precip = container.querySelector('.precip-chance');
