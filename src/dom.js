@@ -139,8 +139,10 @@ export const dom = (() => {
 	 * @param {object} data - Processed weather data -- Pass in individual day,
 	 * EX: data.forecast.days[x] -- X = number for day in array. 0 = today
 	 * @param {string} unit - `F`arenheit/`C`elsius
+	 * @param {boolean} showAll - Show all 24 hours of the day? (`true`)
+	 * Or just the remaining hours of the day (`false`)
 	 */
-	const updateHourlyForecast = (data, unit = 'f') => {
+	const updateHourlyForecast = (data, unit = 'f', showAll = false) => {
 		const container = document.querySelector('#hourly');
 
 		// Heading
@@ -155,9 +157,11 @@ export const dom = (() => {
 			const hourData = data.hourly[i];
 
 			// If time is in the past, dont show
-			if (checkTimeIsPast(hourData.time)) {
-				hourContainer.style.display = 'none';
+			if (checkTimeIsPast(hourData.time) && showAll === false) {
+				hourContainer.classList.add('hide');
 				continue;
+			} else {
+				hourContainer.classList.remove('hide');
 			}
 
 			// Time
@@ -323,6 +327,9 @@ export const dom = (() => {
 		let unit;
 		(unitBtn.textContent.includes('F')) ? unit = 'F' : unit = 'C'; // Get unit
 
+		// remove `hide` class from `#current-container` if its there
+		document.querySelector('#current-container').classList.remove('hide');
+
 		updateCurrentLocation(data, unit); // Display Data
 		updateTodaysWeather(data.forecast.days[0], unit); // Display Today's data
 		updateWeekForecast(data, unit); // Display weeks Data
@@ -331,5 +338,31 @@ export const dom = (() => {
 		return data;
 	};
 
-	return {search, updateUnits};
+	/**
+	 * Load a different days data instead of today
+	 * @param {string} location - Location to load weather
+	 * @param {number} day - The day to load as a number
+	 * 0 = today, 1 = tomorrow, etc.
+	 * @param {string} unit - `F`/`C`
+	 */
+	const loadDayData = async (location, day, unit) => {
+		const data = await weather.getForecastData(location);
+
+		const currentcontainer = document.querySelector('#current-container');
+		// Hide #current container unless its Today
+		let showAll;
+		if (day !== 0) {
+			currentcontainer.classList.add('hide');
+			showAll = true;
+		} else {
+			currentcontainer.classList.remove('hide');
+			showAll = false;
+		}
+
+		// Update elements
+		updateTodaysWeather(data.forecast.days[day], unit);
+		updateHourlyForecast(data.forecast.days[day], unit, showAll);
+	};
+
+	return {search, updateUnits, loadDayData};
 })();
