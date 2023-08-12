@@ -18,6 +18,8 @@ export const weather = (() => {
 		// Parse Data
 		const data = await request.json();
 
+		console.log(data);
+
 		/* `data` will be JS Obj
 		Holds all Current Weather Data for the given location */
 		return process.forecastData(data);
@@ -75,12 +77,16 @@ export const weather = (() => {
 					day: {
 						f: {
 							high: day.day.maxtemp_f,
+							avg: day.day.avgtemp_f,
 							low: day.day.mintemp_f,
 						},
 						c: {
 							high: day.day.maxtemp_c,
+							avg: day.day.avgtemp_c,
 							low: day.day.mintemp_c,
 						},
+						avgHumidity: day.day.avghumidity,
+						uv: day.day.uv,
 						chanceRain: day.day.daily_chance_of_rain,
 						condition: day.day.condition,
 					},
