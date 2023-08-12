@@ -44,6 +44,59 @@ export const dom = (() => {
 	};
 
 	/**
+	 * Update the `#today` container with the days forecasted weather,
+	 * not necessarily the 'Current' weather
+	 * @param {object} dayData - Data for the day whos data you want to show
+	 * EX: data.forecast.days[x]
+	 * @param {string} unit - `F`/`C` for Farenheit/Celsius
+	 */
+	const updateTodaysWeather = (dayData, unit = 'F') => {
+		const lowerUnit = unit.toLowerCase();
+		const container = document.querySelector('#today');
+
+		// Head
+		const head = container.querySelector('h3');
+		head.textContent = 'Weather for ' +
+			formatForecastDate(dayData.date, false, true);
+
+		// Average Temp
+		const avgTemp = container.querySelector('.avg .info');
+		avgTemp.textContent = dayData.day[lowerUnit].avg + '\u00B0' + unit;
+
+		// High
+		const high = container.querySelector('.temp .high .info');
+		high.textContent = dayData.day[lowerUnit].high + '\u00B0' + unit;
+
+		// Low
+		const low = container.querySelector('.temp .low .info');
+		low.textContent = dayData.day[lowerUnit].low + '\u00B0' + unit;
+
+		// Humidity
+		const humid = container.querySelector('.humidity .info');
+		humid.textContent = dayData.day.avgHumidity + '%';
+
+		// Sunrise
+		const sunrise = container.querySelector('.sunrise .info');
+		sunrise.textContent = dayData.astro.sunrise;
+
+		// Sunset
+		const sunset = container.querySelector('.sunset .info');
+		sunset.textContent = dayData.astro.sunset;
+
+		// Moon Phase
+		const phase = container.querySelector('.moonphase .info');
+		phase.textContent = dayData.astro.moonPhase;
+
+		// Moonrise
+		const moonrise = container.querySelector('.moonrise .info');
+		moonrise.textContent = dayData.astro.moonrise;
+
+		// Moonset
+		const moonset = container.querySelector('.moonset .info');
+		moonset.textContent = dayData.astro.moonset;
+	};
+
+	/**
 	 * Updates `Weekly Forecast` container with the given data
 	 * @param {object} data - Processed Data
 	 * @param {string} unit - 'f'/'c', for Farenheit/Celsius
@@ -76,6 +129,8 @@ export const dom = (() => {
 			// Chance of Rain
 			const precip = container.querySelector('.precip-chance');
 			precip.textContent = currentDay.day.chanceRain + '%';
+
+			console.log(data);
 		}
 	};
 
@@ -171,11 +226,20 @@ export const dom = (() => {
 	 * Format the given date for `#forecast` & `#hourly` sections
 	 * @param {string} date - Date as a string
 	 * @param {boolean} time - Do you want to return the date or the time?
+	 * @param {boolean} longDate - Do you want to return the long date with day of
+	 * week and month?
 	 * @return {string} Formatted date/time
 	 */
-	const formatForecastDate = (date, time = false) => {
+	const formatForecastDate = (date, time = false, longDate = false) => {
 		if (time) {
 			return format(parseISO(date), 'p');
+		} else if (longDate) {
+			if (isToday(parseISO(date))) return 'Today';
+
+			const newDate = format(parseISO(date), 'PPPP')
+				.slice(0, -5);
+
+			return newDate;
 		} else {
 			if (isToday(parseISO(date))) return 'Today';
 
@@ -251,6 +315,7 @@ export const dom = (() => {
 	 * Will be run on Search Btn Click.
 	 * Updates current location, weekly forecast, and hourly info
 	 * @param {string} location - Location to show weather info
+	 * @return {object} Weather data
 	 */
 	const search = async (location) => {
 		const data = await weather.getForecastData(location); // Get data
@@ -259,8 +324,11 @@ export const dom = (() => {
 		(unitBtn.textContent.includes('F')) ? unit = 'F' : unit = 'C'; // Get unit
 
 		updateCurrentLocation(data, unit); // Display Data
+		updateTodaysWeather(data.forecast.days[0], unit); // Display Today's data
 		updateWeekForecast(data, unit); // Display weeks Data
 		updateHourlyForecast(data.forecast.days[0], unit); // Todays Hourly Forecast
+
+		return data;
 	};
 
 	return {search, updateUnits};
