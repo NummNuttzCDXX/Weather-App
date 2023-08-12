@@ -171,6 +171,11 @@ header h1 {
 	justify-content: space-between;
 }
 
+.day:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}
+
 /* `day` cards */
 .day-container {
 	text-align: center;
@@ -186,6 +191,55 @@ header h1 {
 	display: flex;
 	justify-content: center;
 	align-items: flex-end;
+}
+
+/* Todays Weather */
+#today {
+	width: 80%;
+	padding: 10px;
+	padding-top: 0;
+
+	font-size: .9rem;
+	border: 2px solid var(--blue-reg);
+
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	grid-template-rows: 2.5fr repeat(4, 1fr);
+	align-items: end;
+	gap: .5em;
+}
+
+/* All #today children */
+#today> :nth-child(n) {
+	display: flex;
+	justify-content: space-between;
+
+	border-bottom: 2px solid #03055e68;
+}
+
+#today h3 {
+	grid-column: 1 / -1;
+	grid-row: 1 / 2;
+	align-self: center;
+
+	margin: 0;
+	font-size: 1.17rem;
+}
+
+#today .temp {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 1rem;
+}
+
+#today .temp > :nth-child(n) {
+	display: flex;
+	justify-content: space-between;
+	flex-grow: 1;
+
+	font-weight: initial;
+	font-size: inherit;
 }
 
 /* All condition imgs */
@@ -325,7 +379,7 @@ footer > a img {
 	}
 
 	/* All Content elements */
-	#current-container, #forecast, #hourly {
+	#current-container, #forecast, #today, #hourly {
 		width: 90%;
 		padding: 5px;
 	}
@@ -341,5 +395,9 @@ footer > a img {
 
 	.day {
 		font-size: 1rem;
+	}
+
+	#today {
+		grid-template-rows: 2.5em repeat(4, 1fr);
 	}
 }
