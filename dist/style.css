@@ -31,6 +31,12 @@
 	border-radius: 1rem;
 }
 
+/* Hide elements
+-- Use ID to give it highest specificity */
+.hide, #hourly .hide, #current-container.hide {
+	display: none;
+}
+
 /* Doc */
 body {
 	display: flex;
@@ -97,14 +103,17 @@ header h1 {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 1.5rem;
 
 	background-color: var(--light-2);
 }
 
+/* #content children */
+#content > :nth-child(1n) {
+	margin-top: 1.5rem;
+}
+
 /* Current Weather Container */
 #current-container {
-	margin-top: 1.5rem;
 	width: 50%;
 	padding: 10px;
 
@@ -190,7 +199,7 @@ header h1 {
 	flex-grow: 2;
 	display: flex;
 	justify-content: center;
-	align-items: flex-end;
+	align-items: center;
 }
 
 /* Todays Weather */
