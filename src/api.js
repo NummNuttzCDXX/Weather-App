@@ -1,8 +1,5 @@
 // API Module
 
-/* This is the basic API URL
-Concat Location to end (Plus any optional parameters in docs) */
-
 export const weather = (() => {
 	/**
 	 * Get current weather data at `location`
