@@ -317,6 +317,14 @@ header h1 {
 #hourly .degree {
 	grid-column: 1 / 2;
 	grid-row: 1 / -1;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.degree img {
+	height: 70%;
 }
 
 #hourly .direction {
