@@ -308,6 +308,27 @@ header h1 {
 	text-align: end;
 }
 
+#hourly .wind {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr;
+}
+
+#hourly .degree {
+	grid-column: 1 / 2;
+	grid-row: 1 / -1;
+}
+
+#hourly .direction {
+	grid-column: 2 / -1;
+	grid-row: 1 / 2;
+}
+
+#hourly .speed {
+	grid-column: 2 / -1;
+	grid-row: 2 / 3;
+}
+
 footer {
 	width: 100%;
 
