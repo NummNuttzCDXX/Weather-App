@@ -129,8 +129,6 @@ export const dom = (() => {
 			// Chance of Rain
 			const precip = container.querySelector('.precip-chance');
 			precip.textContent = currentDay.day.chanceRain + '%';
-
-			console.log(data);
 		}
 	};
 

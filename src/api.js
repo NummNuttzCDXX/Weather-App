@@ -18,8 +18,6 @@ export const weather = (() => {
 		// Parse Data
 		const data = await request.json();
 
-		console.log(data);
-
 		/* `data` will be JS Obj
 		Holds all Current Weather Data for the given location */
 		return process.forecastData(data);
