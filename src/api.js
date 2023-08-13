@@ -63,6 +63,7 @@ export const weather = (() => {
 								mph: time.wind_mph,
 								kph: time.wind_kph,
 							},
+							degree: time.wind_degree,
 						},
 						time: time.time,
 						condition: time.condition,
