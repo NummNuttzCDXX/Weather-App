@@ -199,6 +199,9 @@ export const dom = (() => {
 			} else {
 				throw new Error('Sonmething went wrong with "wind" section');
 			}
+
+			const degree = windContainer.querySelector('.degree');
+			degree.style.transform = `rotate(${hourData.wind.degree}deg)`;
 		}
 	};
 
